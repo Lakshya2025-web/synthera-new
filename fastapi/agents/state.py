@@ -4,11 +4,13 @@ class State(BaseModel):
     user_input: str
     route : Optional[str] = None
     subtasks : Optional[List[str]] = None
-    iqvia: Optional[str] = None
-    exim : Optional[str] = None
+    iqvia: Optional[dict] = None
+    exim : Optional[dict] = None
     web : Optional[str] = None
-    clinical: Optional[str] = None
-    patent : Optional[str] = None
+    clinical: Optional[dict] = None
+    patent : Optional[dict] = None
     internal : Optional[str] = None
-    report : Optional[str] = None 
+    report : Optional[str] = None
+    pdf_s3_key : Optional[str] = None
+    pdf_url : Optional[str] = None 
     response: Optional[str] = None

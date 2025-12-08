@@ -45,4 +45,9 @@ STRICT JSON OUTPUT:
     raw = res.strip()
     if raw.startswith("```"):
         raw = raw.replace("```json", "").replace("```", "").strip()
-    return {"iqvia": raw}
+    try:
+        data = json.loads(raw)
+    except:
+        data = {}
+
+    return {"iqvia": data}

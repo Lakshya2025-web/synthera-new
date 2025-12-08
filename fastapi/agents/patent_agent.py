@@ -50,4 +50,9 @@ User Query:
     res = llm.invoke(prompt).content.strip()
     if res.startswith("```"):
         res = res.replace("```json", "").replace("```", "").strip()
-    return {"patent": res}
+    try:
+        data = json.loads(raw)
+    except:
+        data = {}
+
+    return {"patent": data}

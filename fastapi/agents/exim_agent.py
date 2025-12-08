@@ -47,4 +47,9 @@ User query:
     res = llm.invoke(prompt).content.strip()
     if res.startswith("```"):
         res = res.replace("```json", "").replace("```", "").strip()
-    return {"exim": res}
+    try:
+        data = json.loads(raw)
+    except:
+        data = {}
+
+    return {"exim": data}

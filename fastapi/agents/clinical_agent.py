@@ -53,4 +53,8 @@ User Query:
     raw = llm.invoke(prompt).content.strip()
     if raw.startswith("```"):
         raw = raw.replace("```json", "").replace("```", "").strip()
-    return {"clinical" : raw}
+    try:
+        data = json.loads(raw)
+    except:
+        data = {}
+    return {"clinical" : data}
