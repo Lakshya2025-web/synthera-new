@@ -24,6 +24,11 @@ export default function ChatPage() {
     await signOut();
     router.push("/");
   };
+  const handleTokens = async() => {
+     const session = await fetchAuthSession();
+      const token = session.tokens?.idToken?.toString();
+      console.log(token);
+  }
   const toggleTheme = () => setDarkMode(!darkMode);
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
@@ -63,6 +68,10 @@ export default function ChatPage() {
           <button onClick={handleLogout} className="text-xs bg-purple-600 px-2 py-1 rounded hover:bg-purple-700 transition">
           Sign Out
         </button>
+          <button onClick={handleTokens} className="text-xs bg-purple-600 px-2 py-1 rounded hover:bg-purple-700 transition">
+          Get tokens
+        </button>
+
         </div>
 
         <h2 className="text-2xl font-semibold mb-6">What can I help with?</h2>
