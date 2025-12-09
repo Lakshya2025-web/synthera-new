@@ -1,0 +1,63 @@
+services:
+  fastapi:
+    container_name: fastapi-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT : 5672
+      CELERY_BROKER_URL : amqp://guest:guest@rabbitmq:5672//
+      CELERY_RESULT_BACKEND: rpc://
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY : ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ap-south-1
+      COGNITO_REGION : ${COGNITO_REGION}
+      USER_POOL_ID: ${USER_POOL_ID}
+      USER_POOL_CLIENT_ID : ${USER_POOL_CLIENT_ID}
+      GROQ_API_KEY : ${GROQ_API_KEY}
+      AWS_BUCKET_NAME : ${AWS_BUCKET_NAME}
+      S3_BUCKET_NAME : ${S3_BUCKET_NAME}
+      AWS_S3_ENDPOINT_URL : ${AWS_S3_ENDPOINT_URL}
+    depends_on:
+      - rabbitmq
+    restart : always
+  
+  celery-worker:
+    container_name : celery-worker
+    build:
+      context : .
+      dockerfile : Dockerfile
+    command : celery -A celery_app worker --loglevel=info
+    environment:
+      CELERY_BROKER_URL : amqp://guest:guest@rabbitmq:5672//
+      CELERY_RESULT_BACKEND: rpc://
+    depends_on:
+      - rabbitmq
+    restart: always
+
+  celery-beat:
+    container_name: celery-beat
+    build:
+      context: .
+      dockerfile : Dockerfile
+    command: celery -A celery_app beat --loglevel=info
+    environment:
+      CELERY_BROKER_URL= amqp://guest:guest@rabbitmq:5672//
+      CELERY_RESULT_BACKEND = rpc://
+    depends_on:
+      - rabbitmq
+    restart : always
+  
+  rabbitmq:
+    container_name : rabbitmq
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER : guest
+      RABBITMQ_DEFAULT_PASS : guest
+    restart: always
