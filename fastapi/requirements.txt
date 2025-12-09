@@ -1,6 +1,6 @@
 fastapi
 uvicorn
-
+redis
 langgraph
 langchain
 langchain-groq
