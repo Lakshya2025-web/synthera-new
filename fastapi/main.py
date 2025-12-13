@@ -31,9 +31,9 @@ redis_client = Redis(
 class UserInput(BaseModel):
     user_input: str
 fast_app = FastAPI()
-@fast_app.on_event("startup")
-def on_startup():
-    create_db_and_tables()
+# @fast_app.on_event("startup")
+# # def on_startup():
+# #     create_db_and_tables()
 @fast_app.post("/agent-run")
 async def run_agent(payload: UserInput, user=Depends(get_current_user), session:SessionDep= None):
     try:
@@ -80,6 +80,7 @@ fast_app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
+        "https://urban-broccoli-69r56vr6v7w62575w-3000.app.github.dev"
     ],
     allow_credentials=True,
     allow_methods=["*"],
