@@ -31,7 +31,18 @@ export default function ChatPage() {
     await signOut();
     router.push("/");
   };
-
+  const chatHistoryFetch = async() => {
+      const session = await fetchAuthSession();
+      const token = session.tokens?.idToken?.toString();
+      const result = fetch("http://localhost:8000/api/chat-history", {
+        method: "GET", 
+        headers: {
+          "Content-Type": "application/json", 
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log(result);
+  }
   const runAgent = async () => {
     if (!query.trim()) return;
 
