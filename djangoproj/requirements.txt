@@ -6,3 +6,4 @@ python-dotenv
 django-environ
 python-jose
 boto3
+django-cors-headers
