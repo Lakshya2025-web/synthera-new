@@ -1,6 +1,7 @@
 services:
   fastapi:
     container_name: fastapi-app
+    image : gov10/fastapi-synthera:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -47,9 +48,7 @@ services:
   
   celery-worker:
     container_name : celery-worker
-    build:
-      context : .
-      dockerfile : Dockerfile
+    image : gov10/fastapi-synthera:latest
     command : celery -A celery_app worker --loglevel=info
     environment:
       AWS_REGION: ap-south-1
@@ -63,9 +62,7 @@ services:
 
   celery-beat:
     container_name: celery-beat
-    build:
-      context: .
-      dockerfile : Dockerfile
+    image: gov10/fastapi-synthera:latest
     command: celery -A celery_app beat --loglevel=info
     environment:
       CELERY_BROKER_URL : amqp://guest:guest@rabbitmq:5672//
