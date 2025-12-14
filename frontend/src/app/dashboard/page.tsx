@@ -62,13 +62,13 @@ export default function ChatPage() {
     const token = session.tokens?.idToken?.toString();
 
     const res = await fetch(
-      "http://3.111.30.223:8080/agent-run",
+      "/api/proxy/agent-run",
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  },
         body: JSON.stringify({ user_input: query }),
       }
     );
